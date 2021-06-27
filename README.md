@@ -1,2 +1,0 @@
-# interviewcake-algos
-# Leetcode-Algorithms
