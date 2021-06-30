@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script src="/javascripts/jquery.js"></script>
+  <script src="/javascripts/handlebars.js"></script>
+  <link rel="stylesheet" href="stylesheets/style.css">
+</head>
+<body>
+  <header class="header">
+    <div class="header-container">
+      <h1 class="header-title">Contact Manager</h1>
+      <p>JS239 Practice Project</p>
+    </div>
+  </header>
+  <main>
+    <div class="menu">
+      <button class="addContactButtonToShowContactForm">Add Contact</button>
+      <input type="search" name="" id="searchBar" placeholder="Search for a contact">
+    </div>
+    <div class="tag-container"></div>
+    <div id="contact-list" class="contact-list hidden"></div>
+    <div class="empty-search hidden"></div>
+  </main>
+  <div id="no-contacts-container">
+    <h2>There is no contacts.</h2>
+    <button class="addContactButtonToShowContactForm" id="modalAddButton">Add Contact</button>
+  </div>
+  <!-- not sure if I need to hidden the most outer div-->
+  <div class="modal-container" id="modal">
+    <div class="modal hidden">
+      <div class="modal-header">
+        <h3 id="create-contact">Create Contact</h3>
+      </div>
+      <!--might hide this modal-content div later-->
+      <div class="modal-content">
+        <form action="" class="modal-form" data-id="">
+          <div >
+            <label for="full_name" id="full-name-label">Full name:</label>
+            <input type="text" id="full_name" name="full_name" class="form-input">
+          </div>
+          <div >
+            <label for="email">Email address:</label>
+            <input type="email" id="email_address" name="email_address" class="form-input">
+          </div>
+          <div >
+            <label for="">Telephone number:</label>
+            <input type="text" id="telephone_number" name="telephone_number" class="form-input">
+          </div>
+          <input type="submit" value="Submit" class="submit-button">
+          <input type="button" value="Cancel" class="cancel-button">
+        </form>
+      </div>
+    </div>
+  </div>
+  <!--contact list template - takes in full_name, phone_number, email-->
+  <script id="contactListTemplate" type="text/x-handlebars">
+    <ul class="contact-list">
+      {{#each contacts}}
+      {{> contactPartial}}
+      {{else}}
+      <li>
+        <strong>There are no contacts.</strong>
+      </li>
+      {{/each}}
+    </ul>
+  </script>
+
+  <script id="contactPartial" type="text/x-handlebars">
+    <li>
+      <h3>{{full_name}}</h3>
+      <dl>
+        <dt>Phone Number:</dt>
+        <dd>{{phone_number}}</dd>
+        <dt>Email:</dt>
+        <dd>{{email_address}}</dd>
+      </dl>
+      <button class="edit-contact">Edit</button>
+      <button class="delete-contact">Delete</button>
+    </li>
+  </script>
+  <script src="javascripts/mvc.js"></script>
+</body>
+</html>

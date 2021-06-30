@@ -1,0 +1,107 @@
+/* font import */
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+
+/* CSS Reset */
+* {
+	padding: 0;
+	margin: 0;
+	font-family: 'Poppins';
+}
+
+.header-container {
+	text-align: center;
+	background-color: skyblue;
+	color: white;
+	padding-top: 1em;
+	padding-bottom: 1em;
+	font-size: 1.2em;
+	border: 1px solid black;
+	margin-bottom: 1.2em;
+}
+
+.menu {
+	display: flex;
+	justify-content: space-evenly;
+	text-align: center;
+	padding-top: 2em;
+	padding-bottom: 2em;
+	background-color: #f4f4f4;
+	border: 1px solid black;
+	margin-bottom: 1.2em;
+}
+
+button {
+	padding: .6em;
+	cursor: pointer;
+	font-size: 1.1em;
+	border-radius: 0.3em;
+}
+
+input {
+	width: 15%;
+	border-radius: 0.3em;
+	padding-left: 0.5em;
+	padding-right: 0.5em;
+	text-align: left;
+}
+
+.temp {
+	text-align: center;
+	margin-bottom: 2em;
+}
+
+.modal {
+	border: 1px solid black;
+	height: 275px;
+	padding-top: 1em;
+	text-align: center;
+}
+
+h2 {
+	margin-top: 1.2em;
+	font-weight: normal;
+	margin-bottom: 1.2em;
+}
+
+.hidden {
+	display: none;
+}
+
+.modal-form {
+	/* border: 1px solid red; */
+	padding-bottom: 3em;
+}
+
+.submit-button {
+	padding: .4em;
+	cursor: pointer;
+	font-size: 1.1em;
+	border-radius: 0.3em;
+	text-align: center;
+	margin-right: 1em;
+}
+
+.cancel-button {
+	padding: .4em;
+	cursor: pointer;
+	font-size: 1.1em;
+	border-radius: 0.3em;
+	text-align: center;
+	margin-left: 1em;
+}
+
+.modal-form div {
+	margin: 15px 0;
+}
+
+.modal-form label {
+	margin-bottom: 5px;
+}
+
+#create-contact {
+	font-size: 32px;
+}
+
+#no-contacts-container {
+	text-align: center;
+}

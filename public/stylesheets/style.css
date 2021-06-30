@@ -1,0 +1,121 @@
+/* font import */
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+
+/* CSS Reset */
+* {
+	padding: 0;
+	margin: 0;
+	font-family: 'Poppins';
+}
+
+#header-container {
+	text-align: center;
+	background-color: steelblue;
+	color: white;
+	padding: 2em 2em;
+}
+
+#nav-container {
+	display: flex;
+	justify-content: space-evenly;
+	padding-top: 2em;
+}
+
+#add-contact-button {
+	padding: 0.8em;
+	border-radius: 0.6em;
+	margin-right: 6em;
+}
+
+#search-contact-input {
+	padding: 0.4em;
+	margin-left: 3em;
+	border-radius: 0.6em;
+	margin-right: 6em;
+}
+
+.hidden {
+	display: none;
+}
+
+#addContactDisplay {
+	text-align: center;
+}
+
+#addContactForm {
+	text-align: center;
+}
+
+form > div {
+	margin-bottom: 10px;
+}
+
+label {
+	display: inline-block;
+	width: 150px;
+	text-align: right;
+	margin-right: 2em;
+}
+
+#submit-button {
+	padding-top: 0.3em;
+	padding-bottom: 0.3em;
+	padding-left: 4em;
+	padding-right: 4em;
+}
+
+#cancel-button {
+	padding-top: 0.3em;
+	padding-bottom: 0.3em;
+	padding-left: 4em;
+	padding-right: 4em;
+}
+
+#contactsDisplay {
+	display: flex;
+	flex-direction: row;
+	text-align: center;
+	text-decoration: none;
+	margin-left: 10em;
+}
+
+ul#contactsList {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	list-style: none;
+	font-size: 1em;
+}
+
+li {
+	border: 1px solid goldenrod;
+	float: left;
+	padding-left: 5.5em;
+	padding-right: 5.5em;
+	padding-top: 3em;
+	padding-bottom: 3em;
+	margin: 1em;
+	width: calc(43%/3);
+	text-align: center;
+}
+
+#edit-button {
+	padding-left: 1.2em;
+	padding-right: 1.2em;
+	padding-top: 0.4em;
+	padding-bottom: 0.4em;
+	margin-top: 1.5em;
+	margin-right: 1.5em;
+}
+
+#delete-button {
+	padding-left: 0.6em;
+	padding-right: 0.6em;
+	padding-top: 0.4em;
+	padding-bottom: 0.4em;
+	margin-top: 1.5em;
+}
+
+#contact-card-li-full-name {
+	font-size: 1.6em;
+}

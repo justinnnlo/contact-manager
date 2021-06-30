@@ -2,13 +2,92 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Document</title>
-  <script src="/javascripts/jquery.js"></script>
-  <script src="/javascripts/handlebars.js"></script>
+  <title>239 Practice Take Home - Contact Manager</title>
+  <link rel="stylesheet" href="./stylesheets/style.css">
+  <script src="./javascripts/jquery.js"></script>
+  <script src="./javascripts/handlebars.js"></script>
+  <script src="./javascripts/mvc.js"></script>
 </head>
 <body>
+  <div id="header-container">
+    <header>
+      <h1 id="header-title">Contact Manager</h1>
+      <p>Using Vanilla JS and Handlebars</p>
+    </header>
+  </div>
+  <main>
+    <section id="nav-container">
+      <nav>
+        <input id="add-contact-button" type="button" value="Add Contact"></input>
+        <input id="search-contact-input" type="search" placeholder="Search"></input>
+        <label for="tags">Filtered By Tags: </label>
+        <select name="tags" id="tagSelect">
+          <option value="all" selected>All</option>
+        </select>
+      </nav>
 
+    </section>
+    <div id="contactsDisplay">
+      contacts list here:
+      <ul id=contactsList>
+        <!--inject li here from Handlebars-->
+      </ul>
+    </div>
+
+    <section id="addContactDisplay" class="hidden">
+      <h2 id="createContactH2">Create Contact</h2>
+
+      <form id="addContactForm">
+        <div>
+          <label for="full_name">Full name:</label>
+          <input type="text" id="full_name" name="full_name"> 
+        </div>
+        <div>
+          <label for="email">Email Address:</label>
+          <input type="email" id="email" name="email">
+        </div>
+        <div>
+          <label for="phone_number">Telephone number:</label>
+          <input type="tel" id="phone_number" name="phone_number">
+        </div>
+        <div>
+          <input type="submit" id="submit-button" class="form-submit-button" value="Submit">
+          <input type="button" id="cancel-button" class="form-cancel-button"value="Cancel">
+        </div>
+      </form>
+    </section>
+
+    <script id="contactsTemplate" type="text/x-handlebars-template">
+      {{#each contacts}}
+        <li data-id={{id}}>
+          <dl>
+            <dt id="contact-card-li-full-name" class="contact-name">{{full_name}}</dt>
+            <dt class="contact-name">Phone Number:</dt>
+            <dd>{{phone_number}}</dd>
+            <dt>Email:</dt>
+            <dd>{{email}}</dd>
+          </dl>
+          <div id="contact-buttons">
+            <input id="edit-button" type="button" value="Edit">
+            <input id="delete-button" type="button" value="Delete">
+          </div>
+        </li>
+      {{/each}}
+    </script>
+
+    <script id="messageTemplate" type="text/x-handlebars-template">
+        <li>
+          {{message}}
+        </li>
+    </script>
+
+    <section id="displayEditForm" type="text/x-handlebars-template">
+    
+    </section>
+  </main>
+
+  </div>
 </body>
 </html>
