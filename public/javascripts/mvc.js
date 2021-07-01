@@ -7,7 +7,7 @@ class Model {
   
   /* CRUD operations are stored in Model since they deal with data, data in this case are the contact and contact info */
 
-  // finish ONE operation at a time - in all of MODEL -> CONTROLLER -> VIEW 
+  // finish ONE operation at a time - in all of MODEL -> VIEW -> CONTROLLER 
 
   /* CREATE */ 
   async createContact(contact) {
@@ -191,9 +191,7 @@ class View {
 
   changeH2Content() {
     let h2 = document.querySelector('#createContactH2');
-    // console.log('what is current h2 text content', h2.textContent);
     h2.textContent = 'Edit Contact';
-    // console.log('h2 after', h2);
   }
 
   resetH2Content() {
@@ -237,7 +235,9 @@ class View {
       console.log(target);
       let listID = target.parentNode.parentNode.getAttribute('data-id');
       if (target.type === 'button' && target.value === 'Delete') {
-        handler(listID);
+        let answer = window.confirm('Are you sure you want to delete this contact?');
+        if (answer) handler(listID);
+        // handler(listID);
       }
     });
   }
@@ -253,7 +253,6 @@ class View {
       // put listID into constructor so you can access it from formSubmit
       if (target.type === 'button' && target.value === 'Edit') {
         console.log(`Edit button clicked!`);
-        // handler(listID);
         handler();
       }
     });
