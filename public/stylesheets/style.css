@@ -94,16 +94,17 @@ ul#contactsList {
 li {
 	border: 1px solid goldenrod;
 	float: left;
-	padding-left: 5.5em;
-	padding-right: 5.5em;
+	padding-left: 6em;
+	padding-right: 6em;
 	padding-top: 3em;
 	padding-bottom: 3em;
 	margin: 1em;
-	width: calc(43%/3);
+	width: calc(38%/3);
 	text-align: center;
 }
 
 #edit-button {
+	display: inline-block;
 	padding-left: 1.2em;
 	padding-right: 1.2em;
 	padding-top: 0.4em;
@@ -113,6 +114,7 @@ li {
 }
 
 #delete-button {
+	display: inline-block;
 	padding-left: 0.6em;
 	padding-right: 0.6em;
 	padding-top: 0.4em;
@@ -120,6 +122,19 @@ li {
 	margin-top: 1.5em;
 }
 
+#contact-buttons {
+	display: flex;
+}
 #contact-card-li-full-name {
 	font-size: 1.6em;
+}
+
+#editContactDisplay {
+	text-align: center;
+	border: 1px solid darksalmon;
+	width: 100%;
+}
+
+.editContactForm {
+	text-align: center;
 }

@@ -8,7 +8,6 @@
   <link rel="stylesheet" href="./stylesheets/style.css">
   <script src="./javascripts/jquery.js"></script>
   <script src="./javascripts/handlebars.js"></script>
-  <script src="./javascripts/mvc.js"></script>
 </head>
 <body>
   <div id="header-container">
@@ -59,6 +58,29 @@
       </form>
     </section>
 
+    <section id="editContactDisplay" class='hidden'>
+      <h2 id="createContactH2">Edit Contact</h2>
+
+      <form class="editContactForm">
+        <div>
+          <label for="full_name">Full name:</label>
+          <input type="text" id="full_name-2" name="full_name"> 
+        </div>
+        <div>
+          <label for="email">Email Address:</label>
+          <input type="email" id="email-2" name="email">
+        </div>
+        <div>
+          <label for="phone_number">Telephone number:</label>
+          <input type="tel" id="phone_number-2" name="phone_number">
+        </div>
+        <div>
+          <input type="submit" id="submit-button-2" class="form-submit-button" value="Submit">
+          <input type="button" id="cancel-button-2" class="form-cancel-button" value="Cancel">
+        </div>
+      </form>
+    </section>
+
     <script id="contactsTemplate" type="text/x-handlebars-template">
       {{#each contacts}}
         <li data-id={{id}}>
@@ -83,11 +105,10 @@
         </li>
     </script>
 
-    <section id="displayEditForm" type="text/x-handlebars-template">
-    
-    </section>
+    <!-- <section id="displayEditForm" type="text/x-handlebars-template"></section> -->
   </main>
 
   </div>
+  <script src="./javascripts/mvc.js"></script>
 </body>
 </html>

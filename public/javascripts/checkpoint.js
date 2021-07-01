@@ -68,7 +68,7 @@ class Model {
   /* UPDATE */
   async editContact(id, data) {
     /* PUT endpoint: http://localhost:3000/api/contacts/:id */
-    console.log(`this is PUT request ID`);
+    console.log(`this is PUT request ID`)
     try {
       let response = await fetch(`http://localhost:3000/api/contacts/${id}`, {
         method : 'PUT',
@@ -83,7 +83,7 @@ class Model {
           console.log(`response status: ${response.status}`);
           console.log(`response status text: ${response.statusText}`);
           console.log(`response ok: ${response.ok}`);
-          console.log(' why is this unchanged response', data);
+          console.log(data);
           return data;
         case 400:
           console.log(`response status: ${response.status}`);
@@ -129,7 +129,7 @@ class View {
 
     this.editContactForm = document.querySelector(".editContactForm"); // new
     this.editContactDisplay = document.querySelector('#editContactDisplay'); // new
-
+    
     this.searchbar = document.querySelector('#search-contact-input');
     this.editContactForm = document.querySelector('#displayEditForm');
     this.contactDivUl = document.querySelector('#contactsList');
@@ -216,17 +216,17 @@ class View {
       event.preventDefault();
       let target = event.target;
       // console.log('this is target in add contact', target);
-      // let h2 = target.parentNode.children[0];
+      let h2 = target.parentNode.children[0];
       // console.log(h2);
-      // if (h2.textContent === 'Add Contact') {
-      console.log('submitted!! contact form');
-      let form = target;
-      // console.log(`this is form: `, form); 
-      let formData = new FormData(form);
-      // console.log('this is form data entries', formData.entries());
-      let formDataFormatted = this.extractFormData(formData);
-      handler(formDataFormatted);
-      // }
+      if (h2.textContent === 'Add Contact') {
+        console.log('submitted!! contact form');
+        let form = event.target;
+        // console.log(`this is form: `, form); 
+        let formData = new FormData(form);
+        // console.log('this is form data entries', formData.entries());
+        let formDataFormatted = this.extractFormData(formData);
+        handler(formDataFormatted);
+      }
     });
   }
 
@@ -260,28 +260,26 @@ class View {
   }
 
   bindEditContactFormSubmit(handler)  {
-    this.editContactDisplay.addEventListener('submit', (event) => {
+    this.addContactDisplay.addEventListener('submit', (event) => {
       event.preventDefault();
 
       let target = event.target;
-      console.log('this is target', target);
-      console.log(`in bind edit contact form submit!!!`);
+      console.log(target);
       // find h2 and have condition to check for h2 text content
       let h2 = target.parentNode.children[0];
       console.log('this is h2', h2);
       console.log('this is h2 text content', h2.textContent);
 
-      // if (h2.textContent === 'Edit Contact') {
-      let form = event.target;
-      let formData = new FormData(form);
-      let formDataFormatted = this.extractFormData(formData);
-      console.log('formatted', formDataFormatted);
-      formDataFormatted.id = this.editListID;
-      console.log('id:', this.editListID);
+      if (h2.textContent === 'Edit Contact') {
+        let form = event.target;
+        let formData = new FormData(form);
+        let formDataFormatted = this.extractFormData(formData);
+        console.log('formatted', formDataFormatted);
+        console.log('id:', this.editListID);
         
         // this.listID = '';
-      handler(this.editListID, formDataFormatted);
-      // } 
+        handler(this.editListID, formDataFormatted);
+      } 
     })
   }
 }
@@ -328,8 +326,8 @@ class Controller {
 
   handleEditButton = () => {
     this.view.hide('#contactsList');
-    // this.view.changeH2Content();
-    this.view.show('#editContactDisplay');
+    this.view.changeH2Content();
+    this.view.show('#addContactDisplay');
     // this.model.editContact(id, data);
     this.loadInitialState();
     // this.view.resetH2Content();
@@ -338,8 +336,8 @@ class Controller {
   handleEditContactForm = (id, data) => {
     this.model.editContact(id, data);
     this.loadInitialState();
-    // this.view.resetH2Content();
-    this.view.hide('#editContactDisplay');
+    this.view.resetH2Content();
+    this.view.hide('#addContactDisplay');
     this.view.show('#contactsList');
   }
 
