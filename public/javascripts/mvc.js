@@ -77,9 +77,23 @@ class Model {
   /* DELETE */
   async deleteContact(id) {
     /* DELETE endpoint: http://localhost:3000/api/contacts/:id */
-    let request = new XMLHttpRequest();
-    request.open('DELETE', `/api/contacts:${id}`);
-    request.send();
+    try {
+      let response = await fetch(`/api/contacts/${id}`, {
+        method: 'DELETE',
+      });
+      switch(response.status) {
+        case 204:
+          console.log(`Delete operation was successful`);
+          return 'Delete operation was successful';
+        case 400:
+          console.log(`response status: ${response.status}`);
+          console.log(`response status text: ${response.statusText}`);
+          console.log(`response ok: ${response.ok}`);
+          return response.statusText;
+      }
+    } catch(err) {
+      console.err(err);
+    }
   }
 }
 
@@ -95,6 +109,7 @@ class View {
     this.contactDivUl = document.querySelector('#contactsList');
     this.submitButton = document.querySelector('#submit-button');
     this.cancelButton = document.querySelector('#cancel-button');
+    this.deleteButton = document.querySelector('#delete-button');
     this.bindAddContactButtonClick();
   }
 
@@ -120,7 +135,7 @@ class View {
     // console.log(`theres are inputs: ${inputs}`);
     inputs.forEach(input => {
       // console.log('this is val:', input.value);
-      input.value = ''
+      input.value = '';
     });
   }
 
@@ -151,8 +166,6 @@ class View {
       event.preventDefault();
       console.log('clicked add contact button');
       this.hide('#contactsList');
-      // this.addContactDisplay.classList.add('visible');
-      // this.toggle(this.addContactDisplay);
       this.show('#addContactDisplay');
       this.clearPreviousFormValues(this.addContactDisplay);
       // this.show('#addContactDis');
@@ -172,6 +185,18 @@ class View {
       handler(formDataFormatted);
     });
   }
+
+  bindDeleteButtonClick(handler) {
+    this.contactDivUl.addEventListener('click', (event) => {
+      event.preventDefault();
+      let target = event.target;
+      console.log(target);
+      let listID = target.parentNode.parentNode.getAttribute('data-id');
+      if (target.type === 'button' && target.value === 'Delete') {
+        handler(listID);
+      }
+    });
+  }
 }
 
 class Controller {
@@ -184,8 +209,6 @@ class Controller {
 
   // 
   init() {
-    // this.model.init();
-    // return this;
     // this.view.display("#contactsTemplate", {contacts:[{"id":1,"full_name":"Naveed Fida","email":"nf@example.com","phone_number":"12345678901","tags":"work,friend"},{"id":2,"full_name":"Victor Reyes","email":"vpr@example.com","phone_number":"09876543210","tags":"work,friend"},{"id":3,"full_name":"Pete Hanson","email":"ph@example.com","phone_number":"54321098761","tags":null}]}, this.view.contactDivUl );
 
     // this.view.hide(this.view.headers);
@@ -211,8 +234,14 @@ class Controller {
     this.loadInitialState();
   }
 
+  handleDeleteContact = (id) => {
+    this.model.deleteContact(id);
+    this.loadInitialState();
+  }
+
   bind() {
     this.view.bindAddContactFormSubmit(this.handleCreateContact);
+    this.view.bindDeleteButtonClick(this.handleDeleteContact);
   }
 }
 
