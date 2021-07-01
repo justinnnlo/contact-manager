@@ -2,7 +2,6 @@ const ENDPOINT = " http://localhost:3000/api/contacts/";
 
 class Model {
   constructor() {
-    // fetch data everytime instead of thinking of saving it for now
     this.allContacts = [];
   }
   
@@ -16,9 +15,9 @@ class Model {
     try {
       let response = await fetch(ENDPOINT, {
         method: 'POST',
-        // headers: {
-        //   'Content-Type': 'application/json; charset=UTF-8',
-        // },
+        headers: {
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
         body: JSON.stringify(contact),
       });
       switch(response.status) {
@@ -41,7 +40,7 @@ class Model {
   }
 
    /* READ 1  */ 
-  getContact(id) {
+  async getContact(id) {
     /* GET endpoint: http://localhost:3000/api/contacts/:id */
     let request = new XMLHttpRequest();
     request.open('GET', `/api/contacts/${id}`);
@@ -67,7 +66,7 @@ class Model {
   }
 
   /* UPDATE */
-  editContact(json) {
+  async editContact(json) {
     /* PUT endpoint: http://localhost:3000/api/contacts/:id */
     let request = new XMLHttpRequest();
     request.open('PUT', `/api/contacts/${json.id}`);
@@ -76,7 +75,7 @@ class Model {
   }
 
   /* DELETE */
-  deleteContact(id) {
+  async deleteContact(id) {
     /* DELETE endpoint: http://localhost:3000/api/contacts/:id */
     let request = new XMLHttpRequest();
     request.open('DELETE', `/api/contacts:${id}`);
@@ -96,8 +95,7 @@ class View {
     this.contactDivUl = document.querySelector('#contactsList');
     this.submitButton = document.querySelector('#submit-button');
     this.cancelButton = document.querySelector('#cancel-button');
-    this.bindAddContactButton();
-    // this.bindAddContactForm();
+    this.bindAddContactButtonClick();
   }
 
   // use arrow function / bind to preserve context
@@ -117,42 +115,63 @@ class View {
     location.innerHTML = html;
   }
 
-  hide(elem) {
-    // location.innerHTML = '';
-    elem.remove();
+  clearPreviousFormValues(formElem) {
+    let inputs = Array.prototype.slice.call(formElem.querySelectorAll('input')).slice(0, -2);
+    // console.log(`theres are inputs: ${inputs}`);
+    inputs.forEach(input => {
+      // console.log('this is val:', input.value);
+      input.value = ''
+    });
   }
 
-  show(elem) {
-    elem.classList.remove('hidden');
+  hide(selector) {
+    $(selector).hide();
+  }
+
+  show(selector) {
+    $(selector).show();
   }
 
   // add event listeners for actions in UI
   // when something happens -> what method to be invoke in controller
   // e.g. when there is a submit, event listener on View triggered and ask controller to handle with handler, and reset UI 
 
+  extractFormData(formData) {
+    const obj = {};
+    for (let [key, value] of formData.entries()) { 
+      console.log(key, value);
+      obj[key] = value;
+    }
 
-  bindAddContactButton() {
+    return obj;
+  }
+
+  bindAddContactButtonClick() {
     this.addContactButton.addEventListener('click', (event) => {
       event.preventDefault();
       console.log('clicked add contact button');
-      this.hide(this.contactDivUl);
-      this.show(this.addContactDisplay);
+      this.hide('#contactsList');
+      // this.addContactDisplay.classList.add('visible');
+      // this.toggle(this.addContactDisplay);
+      this.show('#addContactDisplay');
+      this.clearPreviousFormValues(this.addContactDisplay);
+      // this.show('#addContactDis');
+
     });
   }
 
-  bindAddContactForm(handler) {
+  bindAddContactFormSubmit(handler) {
     this.addContactForm.addEventListener('submit', (event) => {
       event.preventDefault();
       console.log('submitted!! contact form');
       let form = event.target;
       console.log(`this is form: `, form); 
       let formData = new FormData(form);
-      console.log('this is form data', formData);
-      handler(formData);
+      console.log('this is form data entries', formData.entries());
+      let formDataFormatted = this.extractFormData(formData);
+      handler(formDataFormatted);
     });
   }
-
-
 }
 
 class Controller {
@@ -185,14 +204,15 @@ class Controller {
     this.view.display("#contactsTemplate", {contacts: this.model.allContacts}, this.view.contactDivUl);
   }
 
-   handleCreateContact = (data) => {
-     console.log('data wtf', typeof data);
+  handleCreateContact = (data) => {
     this.model.createContact(data);
-    this.refreshContactList();
+    this.view.hide('#addContactDisplay');
+    this.view.show('#contactsList');
+    this.loadInitialState();
   }
 
   bind() {
-    this.view.bindAddContactForm(this.handleCreateContact);
+    this.view.bindAddContactFormSubmit(this.handleCreateContact);
   }
 }
 

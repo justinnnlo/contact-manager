@@ -38,6 +38,10 @@
 	display: none;
 }
 
+.show {
+	display: block;
+}
+
 #addContactDisplay {
 	text-align: center;
 }
