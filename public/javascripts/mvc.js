@@ -53,12 +53,11 @@ class Model {
     try {
       const result = await fetch(ENDPOINT);
       const data = await result.json();
-      console.log(data);
+      console.log('result data in getAllContacts', data);
       console.log('status code:', result.status);
       console.log('ok status:', result.ok);
       this.allContacts = data;
-      console.log('state updated!');
-      // console.log(this.allContacts);
+      // console.log('state updated!');
       return data;
     } catch (err) {
       console.error(err);
@@ -134,7 +133,8 @@ class View {
     this.editContactForm = document.querySelector('#displayEditForm');
     this.contactDivUl = document.querySelector('#contactsList');
     this.submitButton = document.querySelector('#submit-button');
-    this.cancelButton = document.querySelector('#cancel-button');
+    this.addContactCancelButton = document.querySelector('#cancel-button');
+    this.editContactCancelButton = document.querySelector('#cancel-button-2');
     this.deleteButton = document.querySelector('#delete-button');
     this.bindAddContactButtonClick();
     /* this.editID; initialize here*/
@@ -145,12 +145,6 @@ class View {
   compileHTMLtoHandlebarsFunction = (id) => {
     return Handlebars.compile(document.querySelector(id).innerHTML);
   }
-
-  // displayContacts(contacts) {
-  //   let contactsTemplate = this.compileHTMLtoHandlebarsFunction("#contactsTemplate");
-  //   let html = contactsTemplate(contacts);
-  //   this.contactDivUl.innerHTML = html;
-  // }
 
   display(id, data, location) {
     let template = this.compileHTMLtoHandlebarsFunction(id);
@@ -175,14 +169,14 @@ class View {
     $(selector).show();
   }
 
-  // add event listeners for actions in UI
+  // add event listeners for actions triggered in UI
   // when something happens -> what method to be invoke in controller
   // e.g. when there is a submit, event listener on View triggered and ask controller to handle with handler, and reset UI 
 
   extractFormData(formData) {
     const obj = {};
     for (let [key, value] of formData.entries()) { 
-      console.log(key, value);
+      // console.log(key, value);
       obj[key] = value;
     }
 
@@ -202,6 +196,7 @@ class View {
   bindAddContactButtonClick() {
     this.addContactButton.addEventListener('click', (event) => {
       event.preventDefault();
+
       console.log('clicked add contact button');
       this.hide('#contactsList');
       this.show('#addContactDisplay');
@@ -212,6 +207,7 @@ class View {
   bindAddContactFormSubmit(handler) {
     this.addContactForm.addEventListener('submit', (event) => {
       event.preventDefault();
+
       let target = event.target;
       // console.log('this is target in add contact', target);
       // let h2 = target.parentNode.children[0];
@@ -231,13 +227,15 @@ class View {
   bindDeleteButtonClick(handler) {
     this.contactDivUl.addEventListener('click', (event) => {
       event.preventDefault();
+
       let target = event.target;
-      console.log(target);
+      // console.log(target);
       let listID = target.parentNode.parentNode.getAttribute('data-id');
       if (target.type === 'button' && target.value === 'Delete') {
         let answer = window.confirm('Are you sure you want to delete this contact?');
-        if (answer) handler(listID);
-        // handler(listID);
+        if (answer) {
+          handler(listID);
+        }
       }
     });
   }
@@ -245,6 +243,7 @@ class View {
   bindEditButtonClick(handler) {
     this.contactDivUl.addEventListener('click', (event) => {
       event.preventDefault();
+
       let target = event.target;
       console.log(target);
       let listID = target.parentNode.parentNode.getAttribute('data-id');
@@ -263,7 +262,7 @@ class View {
       event.preventDefault();
 
       let target = event.target;
-      console.log('this is target', target);
+      // console.log('this is target', target);
       console.log(`in bind edit contact form submit!!!`);
       // find h2 and have condition to check for h2 text content
       let h2 = target.parentNode.children[0];
@@ -277,11 +276,26 @@ class View {
       console.log('formatted', formDataFormatted);
       formDataFormatted.id = this.editListID;
       console.log('id:', this.editListID);
-        
-        // this.listID = '';
+  
       handler(this.editListID, formDataFormatted);
       // } 
-    })
+    });
+  }
+
+  bindAddContactCancelButtonClick(handler) {
+    this.addContactCancelButton.addEventListener('click', (event) => {
+      event.preventDefault();
+
+      handler();
+    });
+  }
+
+  bindEditContactCancelButtonClick(handler) {
+    this.editContactCancelButton.addEventListener('click', (event) => {
+      event.preventDefault();
+
+      handler();
+    });
   }
 }
 
@@ -291,13 +305,6 @@ class Controller {
     this.view = view;
     this.loadInitialState();
     this.bind();
-  }
-
-  // 
-  init() {
-    // this.view.display("#contactsTemplate", {contacts:[{"id":1,"full_name":"Naveed Fida","email":"nf@example.com","phone_number":"12345678901","tags":"work,friend"},{"id":2,"full_name":"Victor Reyes","email":"vpr@example.com","phone_number":"09876543210","tags":"work,friend"},{"id":3,"full_name":"Pete Hanson","email":"ph@example.com","phone_number":"54321098761","tags":null}]}, this.view.contactDivUl );
-
-    // this.view.hide(this.view.headers);
   }
 
   async loadInitialState() {
@@ -310,7 +317,7 @@ class Controller {
   }
 
   refreshContactList() {
-    this.view.display("#contactsTemplate", {contacts: this.model.allContacts}, this.view.contactDivUl);
+    this.view.display("#contactsTemplate", { contacts: this.model.allContacts }, this.view.contactDivUl);
   }
 
   handleCreateContact = (data) => {
@@ -327,17 +334,23 @@ class Controller {
 
   handleEditButton = () => {
     this.view.hide('#contactsList');
-    // this.view.changeH2Content();
     this.view.show('#editContactDisplay');
-    // this.model.editContact(id, data);
     this.loadInitialState();
-    // this.view.resetH2Content();
   }
 
   handleEditContactForm = (id, data) => {
     this.model.editContact(id, data);
     this.loadInitialState();
-    // this.view.resetH2Content();
+    this.view.hide('#editContactDisplay');
+    this.view.show('#contactsList');
+  }
+
+  handleAddContactCancelButton = () => {
+    this.view.hide('#addContactDisplay');
+    this.view.show('#contactsList');
+  }
+
+  handleEditContactCancelButton = () => {
     this.view.hide('#editContactDisplay');
     this.view.show('#contactsList');
   }
@@ -347,6 +360,8 @@ class Controller {
     this.view.bindDeleteButtonClick(this.handleDeleteContact);
     this.view.bindEditButtonClick(this.handleEditButton);
     this.view.bindEditContactFormSubmit(this.handleEditContactForm);
+    this.view.bindAddContactCancelButtonClick(this.handleAddContactCancelButton);
+    this.view.bindEditContactCancelButtonClick(this.handleEditContactCancelButton);
   }
 }
 
