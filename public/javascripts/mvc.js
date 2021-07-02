@@ -183,16 +183,6 @@ class View {
     return obj;
   }
 
-  changeH2Content() {
-    let h2 = document.querySelector('#createContactH2');
-    h2.textContent = 'Edit Contact';
-  }
-
-  resetH2Content() {
-    let h2 = this.addContactDisplay.querySelector('h2');
-    h2.textContent = 'Create Contact';
-  }
-
   bindAddContactButtonClick() {
     this.addContactButton.addEventListener('click', (event) => {
       event.preventDefault();
@@ -208,19 +198,14 @@ class View {
     this.addContactForm.addEventListener('submit', (event) => {
       event.preventDefault();
 
-      let target = event.target;
-      // console.log('this is target in add contact', target);
-      // let h2 = target.parentNode.children[0];
-      // console.log(h2);
-      // if (h2.textContent === 'Add Contact') {
       console.log('submitted!! contact form');
+      let target = event.target;
       let form = target;
       // console.log(`this is form: `, form); 
       let formData = new FormData(form);
       // console.log('this is form data entries', formData.entries());
       let formDataFormatted = this.extractFormData(formData);
       handler(formDataFormatted);
-      // }
     });
   }
 
@@ -269,7 +254,6 @@ class View {
       console.log('this is h2', h2);
       console.log('this is h2 text content', h2.textContent);
 
-      // if (h2.textContent === 'Edit Contact') {
       let form = event.target;
       let formData = new FormData(form);
       let formDataFormatted = this.extractFormData(formData);
@@ -278,7 +262,6 @@ class View {
       console.log('id:', this.editListID);
   
       handler(this.editListID, formDataFormatted);
-      // } 
     });
   }
 
@@ -295,6 +278,14 @@ class View {
       event.preventDefault();
 
       handler();
+    });
+  }
+
+  bindSearchBarInputChange(handler) {
+    this.searchbar.addEventListener('keyup', (event) => {
+      // event.preventDefault();
+
+      handler(event);
     });
   }
 }
@@ -355,6 +346,22 @@ class Controller {
     this.view.show('#contactsList');
   }
 
+  handleSearchBarInputChange = (event) => {
+    // console.log(`typing!`);
+    // console.log(event);
+    // console.log(event.target.value);
+    let target = event.target;
+    let searchString = target.value.toLowerCase();
+    // console.log('this is search string', searchString);
+    let allContacts = this.model.allContacts;
+    console.log(allContacts);
+    let filteredContacts = allContacts.filter((contact) => {
+      return(contact.full_name.toLowerCase().includes(searchString) || contact.email.toLowerCase().includes(searchString));
+    });
+    // console.log('filtered', filteredContacts);
+    this.view.display("#contactsTemplate", { contacts: filteredContacts }, this.view.contactDivUl);
+  }
+
   bind() {
     this.view.bindAddContactFormSubmit(this.handleCreateContact);
     this.view.bindDeleteButtonClick(this.handleDeleteContact);
@@ -362,6 +369,7 @@ class Controller {
     this.view.bindEditContactFormSubmit(this.handleEditContactForm);
     this.view.bindAddContactCancelButtonClick(this.handleAddContactCancelButton);
     this.view.bindEditContactCancelButtonClick(this.handleEditContactCancelButton);
+    this.view.bindSearchBarInputChange(this.handleSearchBarInputChange);
   }
 }
 
