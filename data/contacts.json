@@ -1,23 +1,23 @@
 [
   {
-    "full_name": "Lois Lo",
-    "phone_number": "3334442211",
-    "email": "lolo@gmail.com",
-    "tags": null,
+    "full_name": "Crysdo",
+    "phone_number": "7743658866",
+    "email": "cdo@gmail.com",
+    "tags": "girl-friend",
     "id": 2
   },
   {
     "full_name": "Robin Lo",
     "phone_number": "62111638",
     "email": "rlo@cfa.com",
-    "tags": null,
+    "tags": "family",
     "id": 3
   },
   {
-    "full_name": "Justin Lo",
-    "phone_number": "7787722917",
-    "email": "justlo@gmail.com",
-    "tags": null,
+    "full_name": "josh",
+    "phone_number": "876785687",
+    "email": "jo@gms.com",
+    "tags": "friend",
     "id": 4
   }
 ]

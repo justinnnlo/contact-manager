@@ -29,7 +29,7 @@
 
 #search-contact-input {
 	padding: 0.4em;
-	margin-left: 3em;
+	margin-left: 6em;
 	border-radius: 0.6em;
 	margin-right: 6em;
 }
@@ -137,4 +137,16 @@ li {
 
 .editContactForm {
 	text-align: center;
+}
+
+#tags-container {
+	border: 1px dotted red;
+	/* justify-content: space-between; */
+}
+
+.tags {
+	padding: 1em;
+	margin-left: .5em;
+	margin-right: .5em;
+	border-radius: 1em;
 }

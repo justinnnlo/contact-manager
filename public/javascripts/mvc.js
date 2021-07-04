@@ -129,6 +129,13 @@ class View {
     this.editContactForm = document.querySelector(".editContactForm"); // new
     this.editContactDisplay = document.querySelector('#editContactDisplay'); // new
 
+    this.tagsContainer = document.querySelector('#tags-container'); // tags container
+    // this.allTagsButton = document.querySelector('#tag-1'); // tag 1
+    // this.coworkerTagButton = document.querySelector('#tag-2'); // tag 2
+    // this.friendTagButton = document.querySelector('#tag-3'); // tag 3
+    // this.familyTagButton = document.querySelector('#tag-4'); // tag 4
+    // this.girlFriendTagButton = document.querySelector('#tag-5'); // tag 5
+
     this.searchbar = document.querySelector('#search-contact-input');
     this.editContactForm = document.querySelector('#displayEditForm');
     this.contactDivUl = document.querySelector('#contactsList');
@@ -203,8 +210,13 @@ class View {
       let form = target;
       // console.log(`this is form: `, form); 
       let formData = new FormData(form);
+      
+      let tagSelectedValue = target.children[3].children[1].value;
+      formData.append('tags', tagSelectedValue);
+
       // console.log('this is form data entries', formData.entries());
       let formDataFormatted = this.extractFormData(formData);
+      // console.log('formatted data', formDataFormatted);
       handler(formDataFormatted);
     });
   }
@@ -288,6 +300,14 @@ class View {
       handler(event);
     });
   }
+
+  bindTagsContainerClick(handler) {
+    this.tagsContainer.addEventListener('click', (event) => {
+      // event.preventDefault();
+      // console.log(event.target);
+      handler(event);
+    })
+  }
 }
 
 class Controller {
@@ -347,9 +367,6 @@ class Controller {
   }
 
   handleSearchBarInputChange = (event) => {
-    // console.log(`typing!`);
-    // console.log(event);
-    // console.log(event.target.value);
     let target = event.target;
     let searchString = target.value.toLowerCase();
     // console.log('this is search string', searchString);
@@ -362,6 +379,27 @@ class Controller {
     this.view.display("#contactsTemplate", { contacts: filteredContacts }, this.view.contactDivUl);
   }
 
+  handleTagButtonClick = (event) => {
+    console.log('clicked');
+    console.log('e.target:', event.target);
+    let target = event.target;
+    let tagLookingFor = target.dataset.tag;
+    let allContacts = this.model.allContacts;
+    console.log(allContacts);
+
+    if(tagLookingFor === 'all') {
+      this.view.display("#contactsTemplate", { contacts: allContacts }, this.view.contactDivUl);
+      return;
+    }
+    
+    let filteredContactsByTag = allContacts.filter((contact) => {
+      return contact.tags === tagLookingFor;
+    });
+
+    console.log('filtered by tag', filteredContactsByTag);
+    this.view.display("#contactsTemplate", { contacts: filteredContactsByTag }, this.view.contactDivUl);
+  }
+
   bind() {
     this.view.bindAddContactFormSubmit(this.handleCreateContact);
     this.view.bindDeleteButtonClick(this.handleDeleteContact);
@@ -370,6 +408,7 @@ class Controller {
     this.view.bindAddContactCancelButtonClick(this.handleAddContactCancelButton);
     this.view.bindEditContactCancelButtonClick(this.handleEditContactCancelButton);
     this.view.bindSearchBarInputChange(this.handleSearchBarInputChange);
+    this.view.bindTagsContainerClick(this.handleTagButtonClick);
   }
 }
 

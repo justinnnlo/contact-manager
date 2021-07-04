@@ -21,12 +21,18 @@
       <nav>
         <input id="add-contact-button" type="button" value="Add Contact"></input>
         <input id="search-contact-input" type="search" placeholder="Search"></input>
-        <label for="tags">Filtered By Tags: </label>
+        <!-- <label for="tags">Filtered By Tags: </label>
         <select name="tags" id="tagSelect">
           <option value="all" selected>All</option>
-        </select>
+        </select> -->
       </nav>
-
+      <div id="tags-container"> 
+        <input class="tags" id="tag-1" type="button" value="All" data-tag="all">
+        <input class="tags" id="tag-2" type="button" value="Co-worker" data-tag="co-worker">
+        <input class="tags" id="tag-3" type="button" value="Friend" data-tag="friend">
+        <input class="tags" id="tag-4" type="button" value="Family" data-tag="family">
+        <input class="tags" id="tag-5" type="button" value="Girl-friend" data-tag="girl-friend">
+      </div>
     </section>
     <div id="contactsDisplay">
       contacts list here:
@@ -52,6 +58,16 @@
           <input type="tel" id="phone_number" name="phone_number">
         </div>
         <div>
+          <label for="tags">Tag: </label>
+          <!-- <input type="text" id="tags" name="tags"> -->
+          <select name="tags" id="tag-options">
+            <option value="co-worker">Co-worker</option>
+            <option value="friend">Friend</option>
+            <option value="family">Family</option>
+            <option value="girl-friend">Girl-friend</option>
+          </select>
+        </div>
+        <div>
           <input type="submit" id="submit-button" class="form-submit-button" value="Submit">
           <input type="button" id="cancel-button" class="form-cancel-button" value="Cancel">
         </div>
@@ -75,6 +91,10 @@
           <input type="tel" id="phone_number-2" name="phone_number">
         </div>
         <div>
+          <label for="tags">Tags: </label>
+          <input type="text" id="tags-2" name="tags">
+        </div>
+        <div>
           <input type="submit" id="submit-button-2" class="form-submit-button" value="Submit">
           <input type="button" id="cancel-button-2" class="form-cancel-button" value="Cancel">
         </div>
@@ -90,6 +110,8 @@
             <dd>{{phone_number}}</dd>
             <dt>Email:</dt>
             <dd>{{email}}</dd>
+            <dt>Tags:</dt>
+            <dd>{{tags}}</dd>
           </dl>
           <div id="contact-buttons">
             <input id="edit-button" type="button" value="Edit">
